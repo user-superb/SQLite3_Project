@@ -25,10 +25,16 @@ public class Program {
 				System.out.printf("[%s]\nTabla creada...\n", sql);
 			}
 			
+			for (int i = 0; i < 100; i++) {
+				stmt.executeUpdate(String.format("INSERT INTO PERSONA(id, data) VALUES(%d, %d)", i, i*2));
+			}
+			System.out.printf("Finalización de carga...\n");
 			
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		System.out.printf("Fin programa.\n");
 	}
 }
