@@ -10,12 +10,22 @@ public class Program {
 				Connection conn = DriverManager.getConnection("jdbc:sqlite:./src/myDB.db");
 				Statement stmt = conn.createStatement();
 				) {
-			String sql = "CREATE TABLE PERSONA " +
-	                   "(id INTEGER not NULL, " +
-	                   " PRIMARY KEY ( id ))"; 
-			stmt.executeUpdate(sql);
+			DatabaseMetaData meta = conn.getMetaData();
+			ResultSet res = meta.getTables(null, null, "PERSONA", null);
 			
-			System.out.printf("[%s]\nTabla creada...\n", sql);
+			if (res.next()) {
+				System.out.printf("La Tabla ya existe.\n");
+			} else {
+				String sql = "CREATE TABLE PERSONA " +
+		                   "(id INTEGER not NULL, " +
+		                   "data INTEGER NULL, " +
+		                   " PRIMARY KEY ( id ))"; 
+				stmt.executeUpdate(sql);
+				
+				System.out.printf("[%s]\nTabla creada...\n", sql);
+			}
+			
+			
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
